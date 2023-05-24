@@ -10,18 +10,52 @@
 </head>
 
 <body>
+
+    <!-- HEADER/////////////////////////////////////////////// -->
     <header>
         <nav class="navbar" id="navbar-index">
-            <div class="logo"></div>
-            <div class="nav-list-wrapper">
-                <ul class="nav-list">
-                    li.nav-list-item*3
-                    
+            <div class="logo">
+                <a href="./index.html"><img src="./img/Logonetflix 1.png" alt="main_logo"></a>
+            </div>
+            <ul class="nav-list">
+                <li class="nav-list-item home-item"><a href="./index.html">Home</a></li>
+                <li class="nav-list-item"><a href="./search.html">Discover</a></li>
+                <li class="nav-list-item"><a href="./about.html">About</a></li>
+                <li class="nav-list-item"><a href="./about.html">Forum</a></li>
+                <li class="nav-list-item"><a href="./about.html">Plans</a></li>
+
+            </ul>
+            <div class="search-wrapper">
+                <a href="./search.html"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #ffffff;"></i></a>
+            </div>
+        </nav>
+        <div id="hero-wrapper">
+            <div id="hero-info">
+                <p id="season-tag">Season 3</p>
+                <h2 id="hero-title">The Mandalorian</h2>
+                <p id="movie-details">2h40m • 2022 • Fantasy • Actions</p>
+                <p id="movie-overview">The third season of the American television series The Mandalorian stars Pedro
+                    Pascal as the title character, a bounty hunter traveling to Mandalore to redeem his past
+                    transgressions with his adopted son Grogu and being aided on their journey by fellow Mandalorian
+                    Bo-Katan Kryze.</p>
+                <ul>
+                    <li><button class="hero-button hero-btn-play" type="button"><i class="fa-solid fa-circle-play"
+                                style="color: #ffffff;"></i>Play now</button></li>
+                    <li><button class="hero-button hero-btn-trailer" type="button"><i class="fa-regular fa-circle-play"
+                                style="color: #ffffff;"></i>Watch Trailer</button></li>
                 </ul>
             </div>
-            <div class="search-wrapper"></div>
-        </nav>
+            <div id="hero-carrousel">
+                <ul>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
     </header>
+    <script src="https://kit.fontawesome.com/18ff6d286a.js" crossorigin="anonymous"></script>
     <script type="module" src="app.js"></script>
     <script type="module" src="library.js"></script>
 </body>

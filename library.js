@@ -1,14 +1,16 @@
 export const movieDB = {
-    api_key: "?api_key=8114c981400cf1383e7886a00fb9f174",
-    base_url: "http://api.themoviedb.org/3/movie?",
-    images_url: "http://image.tmdb.org/t/p/",
+    API_KEY: "?api_key=8114c981400cf1383e7886a00fb9f174",
+    BASE_URL: "http://api.themoviedb.org/3/",
+    IMAGES_URL: "http://image.tmdb.org/t/p/",
     timeout: 5000,
     language: "en-US",
 }
-
-/* https://api.themoviedb.org/3/discover/movie?page=2&sort_by=popularity.desc&api_key=8114c981400cf1383e7886a00fb9f174
-
-https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&with_genres=horror&api_key=8114c981400cf1383e7886a00fb9f174 */
+            // Buscar pelicula con search
+// https://api.themoviedb.org/3/search/movie?api_key=8114c981400cf1383e7886a00fb9f174&query=Jack+Reacher
+            // buscar los detalles de esa pelicula con su ID
+// https://api.themoviedb.org/3/movie/343611?api_key=8114c981400cf1383e7886a00fb9f174
+            // Buscar con videos y imágenes
+// https://api.themoviedb.org/3/movie/343611?api_key=8114c981400cf1383e7886a00fb9f174&append_to_response=videos,images,genres
 
 /* MOVIE
 Action          28
