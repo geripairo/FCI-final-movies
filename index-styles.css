@@ -147,32 +147,3 @@ nav{
     transition: all 0.2;
 }
 
-.header-search{
-    background: none;
-}
-
-#search-page{
-    background: #0D0C0F;
-}
-
-/* DOCUMENTO SEARCH */
-#search-bar{
-    background: none;
-    border: none;
-    outline: none;
-}
-
-#search-bar-label{
-    background: white;
-    border-radius: 20px;
-    padding: 10px;
-}
-
-.inactive{
-    display: none;
-}
-
-.active{
-    display: block;
-}
-

@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+body{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Rubik';
+    font-size: 16px;
+}
+body::after{
+    background: linear-gradient(0deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.6643032212885154) 100%);
+
+}
+
+h1,h2,h3,h4,h5,h6,ul,li,p{
+    margin: 0;
+    padding: 0;
+}
+
+/* HEADER CSS */
+
+header{
+    display: flex;
+    justify-content: center;
+    
+}
+
+/* NAV CSS */
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    width: 90%;
+    height: 110px;     
+        
+}
+.logo{cursor: pointer;}
+.nav-list {
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+    gap: 40px;
+}
+
+.nav-list a{
+    color: white;
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 22px;
+    font-family: 'Inter';
+}
+
+.nav-list a:hover{
+    color: rgb(200, 198, 198);
+}
+.header-search{
+    background: none;
+}
+
+#search-page{
+    background: #0f0e0c;
+}
+
+/* DOCUMENTO SEARCH */
+#search-bar{
+    background: none;
+    border: none;
+    outline: none;
+}
+
+#search-bar-label{
+    background: white;
+    border-radius: 20px;
+    padding: 10px;
+}
+#hero-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin-bottom: 100px;
+}
+
+#hero-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 16px;
+    width: 50%;
+    height: 280px;
+    flex: none;
+    color: white;
+    font-size: 18px;
+    
+}
+
+#hero-title{
+    font-size: 36px;
+}
+
+#movie-details{
+    color: #9CA4AB;
+}
+
+.hero-button{
+    font-family: 'Inter';
+    color: white;
+    font-weight: 500;
+    padding: 13px 22px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+}
+#hero-info ul{
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+.hero-button i{
+    margin-right: 6px
+}
+
+.hero-btn-play{
+    background: #00925D;
+    border-radius: 10px;
+}
+
+.hero-btn-play:hover{
+    background: #14e699;
+    transition: all 0.2;
+}
+
+.hero-btn-trailer{
+    background: #28262D;
+    border-radius: 10px;
+}
+
+.hero-btn-trailer:hover{
+    background: #5a5762;
+    transition: all 0.2;
+}
+.inactive{
+    display: none;
+}
+
+.active{
+    display: block;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#movie-cards-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 1600px;
+    margin-top: 30px;
+    width: 90%;
+    justify-content: center;
+}
+
+@media(max-width: 500px){
+    #movie-cards-wrapper{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 10px;        
+        margin-top: 30px;
+        width: 95%;
+        align-items: center;
+    }
+}
+.movie::before {
+    content: "";
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(to top, #000000, transparent);
+  }
+.movie{
+    border-radius: 30px;
+    position: relative;
+    width: 300px;
+    cursor: pointer;    
+}
+
+.movie:hover{
+    opacity: 0.5;
+}
+.card_overlay{
+
+position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+
+}
+.overlay_text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 75%;
+    margin: 0px 5px 0px 20px;
+    max-width: 290px;
+    width: 100%;
+
+  }
+.movie img{    
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+.movie-rate{
+    font-size: 16px;
+}
+.red-rate{
+    color: #ff5a5a;
+}
+
+.orange-rate{
+    color: #ff9b21;
+}
+
+.green-rate{
+    color: #75ff79;
+}
+
+.movie-genre{
+    font-size: 12px;
+    color: rgb(214, 214, 214);
+}
+
+.filmID{
+    display: none;
+}
+
+.film-image{
+width: 100%;
+}
+
+.header-active{
+    width: 100%;
+    height: 100vh;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: space-between;
+}
+
