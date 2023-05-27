@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <title>Document</title>
     <link rel="stylesheet" href="search-styles.css">
 </head>
@@ -26,26 +27,10 @@
             <div class="search-wrapper">
                 <label id="search-bar-label" for="search-bar"><i class="fa-solid fa-magnifying-glass fa-l"
                         style="color: #dad3d3;"></i><input id="search-bar" type="text"></label>
-
             </div>
         </nav>
-        <div id="hero-wrapper">
-            <div id="hero-info">
-                <p id="season-tag">Season 3</p>
-                <h2 id="hero-title">The Mandalorian</h2>
-                <p id="movie-details">2h40m • 2022 • Fantasy • Actions</p>
-                <p id="movie-overview">The third season of the American television series The Mandalorian stars Pedro
-                    Pascal as the title character, a bounty hunter traveling to Mandalore to redeem his past
-                    transgressions with his adopted son Grogu and being aided on their journey by fellow Mandalorian
-                    Bo-Katan Kryze.</p>
-                <ul>
-                    <li><button class="hero-button hero-btn-play" type="button"><i class="fa-solid fa-circle-play"
-                                style="color: #ffffff;"></i>Play now</button></li>
-                    <li><button class="hero-button hero-btn-trailer" type="button"><i class="fa-regular fa-circle-play"
-                                style="color: #ffffff;"></i>Watch Trailer</button></li>
-                </ul>
-            </div>
-        </div>
+        <button id="back-button" type="button">BACK</button>
+
     </header>
     <main id="search-main">
         <section id="movie-cards-wrapper" class="active">
@@ -55,15 +40,46 @@
             <button id="prev-btn">previous</button>
             <button id="next-btn">next</button>
         </div>
-
         <section id="movie-details-wrapper" class="inactive">
-            <div class="film-image">
-
-            </div>
         </section>
     </main>
+    <footer>
+        <div class="top-level-footer">
+            <div class="footer-title-wrap">
+                <h2>Our platform is trusted by millions & features best updated movies all around the world.</h2>
+            </div>
+            <div class="icons-footer-wrap">
+                <p class="footer-nav"><span><a class="footer-link" href="./index.html">Home /</a></span><span><a
+                            class="footer-link" href="./search.html">
+                            Discover
+                            /</a></span><span><a class="footer-link" href="./about.html"> About /</a></span><span><a
+                            class="footer-link" href="#">
+                            Release</a></span></p>
+                <ul class="footer-icons-list">
+                    <li><a href="https://www.facebook.com/imdb/" target="blank"><i class="fa-brands fa-facebook fa-xl"
+                                style="color: #ffffff;"></i></a></li>
+                    <li><a href="https://twitter.com/IMDb?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                            target="blank"><i class="fa-brands fa-square-twitter fa-xl" style="color: #ffffff;"></i></a>
+                    </li>
+                    <li><a href="https://www.instagram.com/imdb/" target="blank"><i
+                                class="fa-brands fa-square-instagram fa-xl" style="color: #ffffff;"></i></a></li>
+                    <li><a href="https://assistant.google.com/services/a/uid/00001f045de221bf"><i
+                                class="fa-brands fa-square-google-plus fa-xl" style="color: #ffffff;"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="bot-level-footer">
+            <ul class="policy-list">
+                <li>Privacy policy</li>
+                <li>Term of service</li>
+                <li>Language</li>
+            </ul>
+            <span><i class="fa-solid fa-copyright" style="color: #ffffff;"></i> 2023</span>
+        </div>
+
+    </footer>
     <script src="https://kit.fontawesome.com/18ff6d286a.js" crossorigin="anonymous"></script>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="search-app.js"></script>
     <script type="module" src="library.js"></script>
 </body>
 
