@@ -151,7 +151,6 @@ main{
     margin-top: 30px;
     width: 90%;
     justify-content: center;
-    background: linear-gradient(358.93deg, #0D0C0F 0.83%, rgba(13, 12, 15, 0.85) 20.55%, rgba(4, 4, 4, 0.26) 57.53%, rgba(13, 12, 15, 0.1) 70.66%, #0D0C0F 103.18%)
 }
 
 @media(max-width: 500px){
@@ -179,7 +178,8 @@ main{
     position: relative;
     width: 300px;
     cursor: pointer;
-    overflow: hidden;    
+    overflow: hidden;
+        
 }
 
 .movie:hover{
@@ -310,21 +310,46 @@ footer{
     width: 30%;
     color: #959595;
 }
+#movie-details-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    width: 100%;
+}
+.film-detail-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+/* ACTORS DETAIL */
 
 .actors{
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
     color: white;
+    justify-content: center;
+/*     overflow-y: hidden;
+    overflow-x: scroll; */
 }
 
-.actor-container{
+/* .actors::-webkit-scrollbar{
+    overflow: hidden;
+} */
+.actors-wrap{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    color: white;
+    margin-top: 40px;
+    width: 100%;
 }
+
 .img-cropper{
-    width: 150px;
-    height: 150px;
+    width: 120px;
+    height: 120px;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -338,10 +363,88 @@ footer{
     margin-bottom: 20px;
 }
 
+/* VIDEOS DETAIL */
+.videos-wrapper{
+    display: flex;
+    justify-content: center;
+}
+.videos{
+    width: 100vw;
+    display: flex;
+    flex-wrap: wrap;
+    color: white;
+    justify-content: center;
+/*     overflow-y: hidden;
+    overflow-x: scroll; */
+}
+/* .videos iframe{
+    margin: 5px;
+    
+} */
+
+/* .videos::-webkit-scrollbar{
+    overflow: hidden;
+} */
+
+/* SIMILAR MOVIES DETAIL */
+
+.similar-movies-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.similar-movies{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    color: white;
+/*     overflow-y: hidden;
+    overflow-x: scroll; */
+}
+
+/* .similar-movies::-webkit-scrollbar{
+    overflow: hidden;
+} */
+.similar-movie{
+    cursor: pointer;
+
+}
+
+.similar-movie:hover{
+    opacity: 0.5;
+}
+/* BACK BUTTON */
 #back-button{
     display: none;
     position: fixed;
     top: 100px;
     right: 92%;
     z-index: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    
+}
+
+#back-button:hover{
+    opacity: 0.6;
+}
+
+.page-buttons{
+    width: 90%;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.page-buttons button{
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.page-buttons button:hover{
+    opacity: 0.6;
 }

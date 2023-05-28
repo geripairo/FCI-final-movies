@@ -112,10 +112,14 @@ function prevPage(){
 nextBtn.addEventListener('click', () => {
   nextPage();
   getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`);
+  document.documentElement.scrollTop = 0;
+
 });
 prevBtn.addEventListener('click', () => {
   prevPage();
   getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`);
+  document.documentElement.scrollTop = 0;
+
 });
 
 // FILTRAR PELICULAS POR EL BUSCADOR
@@ -186,7 +190,13 @@ function showFilmDetails(data){
       `     
       header.appendChild(heroContainer);
       document.querySelector('#hero-title').innerText = `${title}`
-      document.querySelector('#movie-details').innerText = `${runtime}m • ${release_date} • ${genresArr[0].name} • ${genresArr[1].name}`
+      if(genresArr.length < 2){
+        document.querySelector('#movie-details').innerText = `${runtime}m • ${release_date} • ${genresArr[0].name}`
+      } else if (genresArr.length < 3) {
+        document.querySelector('#movie-details').innerText = `${runtime}m • ${release_date} • ${genresArr[0].name} • ${genresArr[1].name}`
+      } else {
+        document.querySelector('#movie-details').innerText = `${runtime}m • ${release_date} • ${genresArr[0].name} • ${genresArr[1].name} • ${genresArr[2].name}`
+      }
       document.querySelector('#movie-overview').innerText = `${overview}`
    
       
@@ -195,10 +205,13 @@ function showFilmDetails(data){
   filmDetail.classList.add('film-detail-wrapper');
 
   filmDetail.innerHTML = `
-  <div class="actors"></div>
+  <div class="actors-wrap">
+    <p>Top Cast</p>
+    <div class="actors"></div>
+  </div>
   <div id="trailer "class="trailer"></div>
-  <div class="videos"></div>
-  <div class="similar-movies"></div>
+  <div class="videos-wrapper"><div class="videos"></div></div>
+  <div class="similar-movies-wrapper"><div class="similar-movies"></div></div>
 
 
   `
@@ -226,9 +239,82 @@ function showFilmDetails(data){
       if (videosArr.length > 10){
         for (let i = 0; i < 10; i++){
           document.querySelector('.videos').innerHTML += `
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-              `
-          if (videosArr[i].name === "Official Trailer"){
+             <iframe src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>           `
+        }
+    } else {
+        for (let i = 0; i < videosArr.length; i++){
+          document.querySelector('.videos').innerHTML += `
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+           `
+        }
+      }
+      
+
+      // MOSTRAR SIMILAR MOVIES
+      fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
+      .then(responseGenres => responseGenres.json())
+      .then(genresData => {
+        
+        const genresMovies = []
+        for (let movie of genresData.results){
+          genresMovies.push(movie)
+          if(movie.title !== title)
+          console.log(movie.id)
+          document.querySelector('.similar-movies').innerHTML += `
+          <div class="similar-movie">
+            <p class="filmID">${movie.id}</p>
+            <img src="${IMAGES_URL}/w400/${movie.backdrop_path}" alt="${movie.title} movie image">
+          </div>          
+          `
+          const similarItemArr = document.querySelectorAll('.similar-movie')
+          similarItemArr.forEach(item => {
+            item.addEventListener('click', (e) => {
+              showRecomended(e);
+            } )
+          })
+          
+        }
+      })
+
+      // GESTIÓN CAMBIOS DE ESTADO Y DISPLAYS
+      header.classList.add('header-active')
+      header.style.background = `linear-gradient(358.93deg, #0D0C0F 0.83%, rgba(13, 12, 15, 0.85) 20.55%, rgba(4, 4, 4, 0.26) 57.53%, rgba(13, 12, 15, 0.1) 70.66%, #0D0C0F 103.18%), url(${IMAGES_URL}/original${backdrop_path}) center / cover`
+      cardsSection.style.display = "none"
+      filmDetailSection.style.display = "block"
+      document.querySelector('.page-buttons').style.display = "none"  
+      document.querySelector('.hero-wrapper').style.display = "flex"
+
+}
+
+// MOSTRAR DETALLES DE UNA PELÍCULA RECOMENDADA
+function showRecomended(e){
+              let target = e.currentTarget;
+              let focus = target.children[0].innerText
+              console.log(focus)
+              filmID = focus;
+              document.documentElement.scrollTop = 0;
+              filmDetail(filmID)
+}
+
+      // BOTÓN PARA VOLVER ATRÁS Y GESTIONAR ESTADOS DISPLAY
+function closeDetails(){
+    filmDetailSection.innerHTML = ``;
+      header.classList.remove('header-active')
+      header.style.background = ``
+      cardsSection.style.display = "flex"
+      filmDetailSection.style.display = "none"
+      document.querySelector('.page-buttons').style.display = "flex"
+      backBtn.style.display = "none"
+      document.querySelector('.hero-wrapper').style.display = "none"
+      document.documentElement.scrollTop = 0;
+      
+
+}
+backBtn.addEventListener('click', closeDetails)
+
+
+
+/* if (videosArr[i].name === "Official Trailer"){
             document.querySelector('.trailer').innerHTML = `
               <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
               `
@@ -247,14 +333,12 @@ function showFilmDetails(data){
             document.querySelector('.trailer').innerHTML = `
             <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             `
-          }
-      }
-    } else {
-      for (let i = 0; i < videosArr.length; i++){
-        document.querySelector('.videos').innerHTML += `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            `
-        if (videosArr[i].name === "Official Trailer"){
+          } */
+
+
+
+
+           /*  if (videosArr[i].name === "Official Trailer"){
           document.querySelector('.trailer').innerHTML = `
             <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             `
@@ -273,48 +357,4 @@ function showFilmDetails(data){
           document.querySelector('.trailer').innerHTML = `
           <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           `
-        }
-      }
-    }
-      
-
-      // MOSTRAR SIMILAR MOVIES
-      fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
-      .then(responseGenres => responseGenres.json())
-      .then(genresData => {
-        const genresMovies = []
-        for (let movie of genresData.results){
-          genresMovies.push(movie)
-          if(movie.title !== title)
-          document.querySelector('.similar-movies').innerHTML += `
-          <img src="${IMAGES_URL}/w400/${movie.backdrop_path}" alt="${movie.title} movie image">
-          `
-        }
-      })
-
-      // GESTIÓN CAMBIOS DE ESTADO Y DISPLAYS
-      header.classList.add('header-active')
-      header.style.background = `linear-gradient(358.93deg, #0D0C0F 0.83%, rgba(13, 12, 15, 0.85) 20.55%, rgba(4, 4, 4, 0.26) 57.53%, rgba(13, 12, 15, 0.1) 70.66%, #0D0C0F 103.18%), url(${IMAGES_URL}/original${backdrop_path}) center / cover`
-      cardsSection.style.display = "none"
-      filmDetailSection.style.display = "block"
-      document.querySelector('.page-buttons').style.display = "none"  
-      document.querySelector('.hero-wrapper').style.display = "flex"
-
-}
-
-      // BOTÓN PARA VOLVER ATRÁS Y GESTIONAR ESTADOS DISPLAY
-function closeDetails(){
-    filmDetailSection.innerHTML = ``;
-      header.classList.remove('header-active')
-      header.style.background = ``
-      cardsSection.style.display = "flex"
-      filmDetailSection.style.display = "none"
-      document.querySelector('.page-buttons').style.display = "block"
-      backBtn.style.display = "none"
-      document.querySelector('.hero-wrapper').style.display = "none"
-      document.documentElement.scrollTop = 0;
-      
-
-}
-backBtn.addEventListener('click', closeDetails)
-
+        } */
