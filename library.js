@@ -88,31 +88,4 @@ export const genres = [
 
   
 
-            // Buscar pelicula con search
-// https://api.themoviedb.org/3/search/movie?api_key=8114c981400cf1383e7886a00fb9f174&query=Jack+Reacher
-            // buscar los detalles de esa pelicula con su ID
-// https://api.themoviedb.org/3/movie/343611?api_key=8114c981400cf1383e7886a00fb9f174
-            // Buscar con videos y imágenes
-// https://api.themoviedb.org/3/movie/343611?api_key=8114c981400cf1383e7886a00fb9f174&append_to_response=videos,images,genres
-
-
-
-
-
-/* TV SHOW
-Action & Adventure  10759
-Animation           16
-Comedy              35
-Crime               80
-Documentary         99
-Drama               18
-Family              10751
-Kids                10762
-Mystery             9648
-News                10763
-Reality             10764
-Sci-Fi & Fantasy    10765
-Soap                10766
-Talk                10767
-War & Politics      10768
-Western             37  */
+  // https://www.youtube.com/watch?v=bMy-mnqBtPk&ab_channel=YoelvisMulen%7Bcode%7D

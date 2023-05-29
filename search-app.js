@@ -236,7 +236,7 @@ function showFilmDetails(data){
   }
 
       //MOSTRAR TRAILER Y VIDEOS
-      if (videosArr.length > 10){
+     /*  if (videosArr.length > 10){
         for (let i = 0; i < 10; i++){
           document.querySelector('.videos').innerHTML += `
              <iframe src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>           `
@@ -248,10 +248,10 @@ function showFilmDetails(data){
            `
         }
       }
-      
+       */
 
       // MOSTRAR SIMILAR MOVIES
-      fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
+      /* fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
       .then(responseGenres => responseGenres.json())
       .then(genresData => {
         
@@ -274,7 +274,7 @@ function showFilmDetails(data){
           })
           
         }
-      })
+      }) */
 
       // GESTIÓN CAMBIOS DE ESTADO Y DISPLAYS
       header.classList.add('header-active')
