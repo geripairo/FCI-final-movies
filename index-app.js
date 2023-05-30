@@ -12,7 +12,7 @@ const slider = document.querySelector('#slider')
 function randomPage(){
     let result = 0
     
-    result = Math.floor(Math.random() *20 +1)
+    result = Math.floor(Math.random() *50 +1)
     return result
 }
 getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`);

@@ -30,6 +30,9 @@ nav{
     height: 110px;     
         
 }
+#discover-item a{
+    font-weight: 700;
+}
 .logo{cursor: pointer;}
 .nav-list {
     display: flex;
@@ -62,6 +65,7 @@ nav{
     background: none;
     border: none;
     outline: none;
+    cursor: pointer;
 }
 
 #search-bar-label{
@@ -142,6 +146,7 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 #movie-cards-wrapper{
     display: flex;
@@ -244,6 +249,106 @@ position: absolute;
      justify-content: space-between;
 }
 
+.section-title{
+    color: white;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 800;
+}
+.actors-wrapper{
+    display: flex;
+    width: 90vw;
+    height: 600px;
+    border-radius: 10px;
+    overflow:hidden;
+}
+
+.actors-wrapper div{
+    width: 0px;
+    flex-grow: 1;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: 0.5s ease;
+    height: 100%;
+    position: relative;
+}
+
+.actors-wrapper div:hover{
+    cursor: crosshair;
+    width: 300px;
+    opacity: 1;
+
+}
+.actor-img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#actors-div::before{
+    content: "";
+    width: 100%;
+    height: 200px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(to top, #000000, transparent);
+  }
+
+.overlay-actor-text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    bottom: 20%;
+    right: 0%;
+    margin: 0px 5px 0px 20px;    
+    width: 300px;
+    object-fit:fill;
+
+  }
+
+/* TRAILER OR VIDEO */
+.videos-wrapper{
+    width: 100;
+    height: auto;
+}
+.videos-wrapper iframe{
+    width: 100%;
+    height: 80vh;
+    border-radius: 20px;
+}
+#similar-container{
+    width: 100%;
+    margin-bottom: 50px;
+}
+.similar-movies-wrapper{
+  width: 100%;
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(
+            200px,
+            1fr
+        )
+    );
+    place-content: center;
+    gap: 10px
+;
+}
+.similar-movie{
+    width: 400px;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+   
+.similar-movie:hover{
+    opacity: 0.5;
+}
+.similar-movie img{
+    border-radius: 10px;
+}
+
 footer{
     width: 100%;
     display: flex;
@@ -310,110 +415,7 @@ footer{
     width: 30%;
     color: #959595;
 }
-#movie-details-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;    
-    width: 100%;
-}
-.film-detail-wrapper{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 90%;
-    margin: 0 auto;
-}
-/* ACTORS DETAIL */
 
-.actors{
-    display: flex;
-    flex-wrap: wrap;
-    color: white;
-    justify-content: center;
-/*     overflow-y: hidden;
-    overflow-x: scroll; */
-}
-
-/* .actors::-webkit-scrollbar{
-    overflow: hidden;
-} */
-.actors-wrap{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    color: white;
-    margin-top: 40px;
-    width: 100%;
-}
-
-.img-cropper{
-    width: 120px;
-    height: 120px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 50%;
-}
-
-.img-cropper img{
-    /* display: inline; */
-    /* margin: 0 auto; */
-    margin-left: 0; 
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-/* VIDEOS DETAIL */
-.videos-wrapper{
-    display: flex;
-    justify-content: center;
-}
-.videos{
-    width: 100vw;
-    display: flex;
-    flex-wrap: wrap;
-    color: white;
-    justify-content: center;
-/*     overflow-y: hidden;
-    overflow-x: scroll; */
-}
-/* .videos iframe{
-    margin: 5px;
-    
-} */
-
-/* .videos::-webkit-scrollbar{
-    overflow: hidden;
-} */
-
-/* SIMILAR MOVIES DETAIL */
-
-.similar-movies-wrapper{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.similar-movies{
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    color: white;
-/*     overflow-y: hidden;
-    overflow-x: scroll; */
-}
-
-/* .similar-movies::-webkit-scrollbar{
-    overflow: hidden;
-} */
-.similar-movie{
-    cursor: pointer;
-
-}
-
-.similar-movie:hover{
-    opacity: 0.5;
-}
 /* BACK BUTTON */
 #back-button{
     display: none;

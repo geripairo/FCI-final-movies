@@ -1,9 +1,8 @@
 // DECONSTRUIR LA LIBRERIA PARA LAS URL
 import {movieDB} from './library.js'
 const {API_KEY, BASE_URL, IMAGES_URL, DISCOVER_URL} = movieDB
-
-
 import {genres} from './library.js'
+
 
 // VARIABLES PARA MANIPUILACIÓN DOM
 const cardsSection = document.querySelector('#movie-cards-wrapper')
@@ -13,6 +12,8 @@ const nextBtn = document.querySelector('#next-btn');
 const prevBtn = document.querySelector('#prev-btn');
 let searchBar = document.querySelector('#search-bar')
 const backBtn = document.querySelector('#back-button')
+const actorSwiper = document.querySelector('.actors-wrapper')
+
 
 
 // VARIABLES DE CAMBIO DE ESTADO
@@ -22,6 +23,7 @@ let videosArr = []
 let actorsArr = [];
 let genresArr = []
 let genresStr= ""
+let inertavlo = null
 
 
 
@@ -155,9 +157,8 @@ function showFilmDetails(data){
 
       // ARRAY DE ACTORES
   actorsArr = []
-  for(let i = 0; i < credits.cast.length; i++){
-    actorsArr.push(credits.cast[i]);    
-   }
+  actorsArr = credits.cast.filter(actor => actor.profile_path != null) 
+ 
 
       // ARRAY DE VIDEOS
       videosArr = []
@@ -175,7 +176,7 @@ function showFilmDetails(data){
       for (let i = 1; i < genresArr.length; i++){
         genresStr += `,${genresArr[i].id}`
       }
-      console.log(genresStr);
+      
 
       // MOSTRAR TITULO Y RESEÑA EN EL HEADER
       const heroContainer = document.createElement('div');
@@ -205,53 +206,70 @@ function showFilmDetails(data){
   filmDetail.classList.add('film-detail-wrapper');
 
   filmDetail.innerHTML = `
-  <div class="actors-wrap">
-    <p>Top Cast</p>
-    <div class="actors"></div>
+  <h3 class="section-title">Top cast:</h3>  
+  <div class="actors-wrapper">
+                    
   </div>
-  <div id="trailer "class="trailer"></div>
+  <h3 class="section-title">Trailer:</h3>   
   <div class="videos-wrapper"><div class="videos"></div></div>
-  <div class="similar-movies-wrapper"><div class="similar-movies"></div></div>
+  <h3 class="section-title">Similar movies:</h3>
+  <div id="similar-container"><div class="similar-movies-wrapper"></div></div>
 
 
   `
-      // AÑADIR ELEMENTO A LA SECCIÓN
-  filmDetailSection.appendChild(filmDetail);
+   filmDetailSection.appendChild(filmDetail);
       
 
       // MOSTRAR ROSTROS ACTORES
-   for(let actor of actorsArr){
-    if(actor.profile_path != null){
-      document.querySelector('.actors').innerHTML += `
-      <div class="actor-container">
-        <div class="img-cropper">
-          <img src="${IMAGES_URL}/original${actor.profile_path}" alt="${actor.name} pic">
+      if (actorsArr.length > 12){
+        for (let i = 0; i < 12; i++){
+          document.querySelector('.actors-wrapper').innerHTML += `
+          <div id="actors-div">
+            <img class="actor-img" src="${IMAGES_URL}/original${actorsArr[i].profile_path}" alt="${actorsArr[i].name} pic">
+            <div class="card__overlay">
+              <div class="movie-info overlay-actor-text">
+                <p class="actor-name">${actorsArr[i].name}</p>            
+              </div>
+            </div>
+          </div>   
+          
+          `
+        }        
+      } else{
+        for(let actor of actorsArr){
+          document.querySelector('.actors-wrapper').innerHTML += `
+      <div id="actors-div">
+        <img class="actor-img" src="${IMAGES_URL}/original${actor.profile_path}" alt="${actor.name} pic">
+        <div class="card__overlay">
+          <div class="movie-info overlay-actor-text">
+            <p class="actor-name">${actor.name}</p>            
+          </div>
         </div>
-        <div class="actor-name-wrapper">
-          <p class="actor-name">${actor.name}</p>
-          <p class="character">${actor.character}</p>
-        </div>
-      </div>`
-    }
-  }
-
-      //MOSTRAR TRAILER Y VIDEOS
-     /*  if (videosArr.length > 10){
-        for (let i = 0; i < 10; i++){
-          document.querySelector('.videos').innerHTML += `
-             <iframe src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>           `
-        }
-    } else {
-        for (let i = 0; i < videosArr.length; i++){
-          document.querySelector('.videos').innerHTML += `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-           `
+      </div>   
+      
+      `
         }
       }
-       */
+   
+      //MOSTRAR TRAILER Y VIDEOS
+     for (let video of videosArr){
+      if(video.name === "Trailer" || video.name === "Official Trailer" || video.name === "Official Trailer (Red Band)" || 
+      video.name === "Official Teaser Trailer" || video.name === "Teaser" || video.name === "Official Trailer 1" || 
+      video.name === "Official Clip" || video.name === "Official Clip 1"){
+        document.querySelector('.videos-wrapper').innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${video.key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          `
+      } else {
+        document.querySelector('.videos-wrapper').innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${videosArr[0].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          `
+      }      
+      
+     }
+      
 
       // MOSTRAR SIMILAR MOVIES
-      /* fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
+      fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
       .then(responseGenres => responseGenres.json())
       .then(genresData => {
         
@@ -259,11 +277,10 @@ function showFilmDetails(data){
         for (let movie of genresData.results){
           genresMovies.push(movie)
           if(movie.title !== title)
-          console.log(movie.id)
-          document.querySelector('.similar-movies').innerHTML += `
+          document.querySelector('.similar-movies-wrapper').innerHTML += `
           <div class="similar-movie">
             <p class="filmID">${movie.id}</p>
-            <img src="${IMAGES_URL}/w400/${movie.backdrop_path}" alt="${movie.title} movie image">
+            <img src="${IMAGES_URL}/w200/${movie.backdrop_path}" alt="${movie.title} movie image">
           </div>          
           `
           const similarItemArr = document.querySelectorAll('.similar-movie')
@@ -274,7 +291,7 @@ function showFilmDetails(data){
           })
           
         }
-      }) */
+      })
 
       // GESTIÓN CAMBIOS DE ESTADO Y DISPLAYS
       header.classList.add('header-active')
@@ -286,11 +303,13 @@ function showFilmDetails(data){
 
 }
 
+
+
 // MOSTRAR DETALLES DE UNA PELÍCULA RECOMENDADA
 function showRecomended(e){
               let target = e.currentTarget;
               let focus = target.children[0].innerText
-              console.log(focus)
+              
               filmID = focus;
               document.documentElement.scrollTop = 0;
               filmDetail(filmID)
@@ -314,47 +333,9 @@ backBtn.addEventListener('click', closeDetails)
 
 
 
-/* if (videosArr[i].name === "Official Trailer"){
-            document.querySelector('.trailer').innerHTML = `
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-              `
-          } 
-          if(videosArr[i].name === "Official Trailer (Red Band)"){
-            document.querySelector('.trailer').innerHTML = `
-              <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-              `
-          }
-          if (videosArr[i].name === "Official Teaser Trailer"){
-            document.querySelector('.trailer').innerHTML = `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            `
-          }
-          if(videosArr[i].name === "Teaser"){
-            document.querySelector('.trailer').innerHTML = `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            `
-          } */
 
 
 
 
-           /*  if (videosArr[i].name === "Official Trailer"){
-          document.querySelector('.trailer').innerHTML = `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            `
-        } 
-        if(videosArr[i].name === "Official Trailer (Red Band)"){
-          document.querySelector('.trailer').innerHTML = `
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            `
-        } 
-        if (videosArr[i].name === "Official Teaser Trailer"){
-          document.querySelector('.trailer').innerHTML = `
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          `
-        } 
-        if(videosArr[i].name === "Teaser"){
-          document.querySelector('.trailer').innerHTML = `
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/${videosArr[i].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          `
-        } */
+
+          
