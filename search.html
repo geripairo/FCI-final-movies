@@ -17,16 +17,20 @@
                 <a href="./index.html"><img src="./img/Logonetflix 1.png" alt="main_logo"></a>
             </div>
             <ul class="nav-list">
-                <li class="nav-list-item home-item"><a href="./index.html">Home</a></li>
-                <li id="discover-item" class="nav-list-item"><a href="./search.html">Discover</a></li>
-                <li class="nav-list-item"><a href="./about.html">About</a></li>
-                <li class="nav-list-item"><a href="./about.html">Forum</a></li>
-                <li class="nav-list-item"><a href="./about.html">Plans</a></li>
+                <li class="li nav-list-item home-item"><a class="li-anchor" href="./index.html">Home</a></li>
+                <li id="discover-item" class="li nav-list-item"><a class="li-anchor" href="./search.html">Discover</a>
+                </li>
+                <li class="li nav-list-item"><a class="li-anchor" href="./about.html">About</a></li>
 
             </ul>
             <div class="search-wrapper">
                 <label id="search-bar-label" for="search-bar"><i class="fa-solid fa-magnifying-glass fa-l"
                         style="color: #dad3d3;"></i><input id="search-bar" type="text"></label>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </nav>
         <button id="back-button" type="button"><i class="fa-solid fa-square-xmark fa-shake fa-4x"
@@ -34,6 +38,9 @@
 
     </header>
     <main id="search-main">
+        <section class="genre-tags">
+
+        </section>
         <section id="movie-cards-wrapper" class="active">
 
         </section>
@@ -80,7 +87,7 @@
         </div>
 
     </footer>
-    <script src="https://kit.fontawesome.com/18ff6d286a.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/a2773ea586.js" crossorigin="anonymous"></script>
     <script type="module" src="search-app.js"></script>
     <script type="module" src="library.js"></script>
 

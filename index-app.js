@@ -9,6 +9,12 @@ console.log(page)
 const header = document.querySelector('header')
 const slider = document.querySelector('#slider')
 
+const hamburger = document.querySelector('.nav-toggle')
+const navItems = document.querySelector('.nav-list')
+hamburger.addEventListener('click',  () => {
+  navItems.classList.toggle('open')
+})
+
 function randomPage(){
     let result = 0
     
@@ -44,7 +50,7 @@ data.forEach(movie => {
         <div class="slider-info">
             <h1>${title}</h1>
             <p class="landing-runtime">${release_date} • ${getGenres(genre_ids)}</p>
-            <p>${overview}</p>
+            <p>${recortarOverview()}</p>
             <a class="landing-button" href="./search.html">Start Exploring</a>
 
         </div>
@@ -55,6 +61,18 @@ data.forEach(movie => {
 slide.style.background = `linear-gradient(358.93deg, #0D0C0F 0.83%, rgba(13, 12, 15, 0.85) 20.55%, rgba(4, 4, 4, 0.26) 57.53%, rgba(13, 12, 15, 0.1) 70.66%, #0D0C0F 103.18%), url(${IMAGES_URL}/original${backdrop_path}) center / cover`
 // IMPRIMIR LA PELICULA CLICADA
 slider.appendChild(slide);
+function recortarOverview(){
+  let length = 150;
+  let text = overview;
+  let textToShow = "";
+
+  for(let i = 0; i < length && i < text.length; i++)
+  textToShow = textToShow + text[i];
+
+  textToShow = textToShow + "...";
+  return textToShow;
+
+}
 })
 
 }

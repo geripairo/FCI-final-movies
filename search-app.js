@@ -7,6 +7,8 @@ import {genres} from './library.js'
 // VARIABLES PARA MANIPUILACIÓN DOM
 const cardsSection = document.querySelector('#movie-cards-wrapper')
 const filmDetailSection = document.querySelector('#movie-details-wrapper');
+const genresSection = document.querySelector('.genre-tags')
+const navList = document.querySelector('.nav-list');
 const header = document.querySelector('.header-search')
 const nextBtn = document.querySelector('#next-btn');
 const prevBtn = document.querySelector('#prev-btn');
@@ -24,11 +26,18 @@ let actorsArr = [];
 let genresArr = []
 let genresStr= ""
 let inertavlo = null
+let selectedGenre = []
 
 
 
 const discoverUrl = `${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`
 const searchUrl = `${BASE_URL}/search/movie${API_KEY}`
+
+const hamburger = document.querySelector('.nav-toggle')
+const navItems = document.querySelector('.nav-list')
+hamburger.addEventListener('click',  () => {
+  navItems.classList.toggle('open')
+})
 
 // CONSEGUIR EL DATA DE LAS PELICULAS POR POPULARIDAD
 getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`);
@@ -37,7 +46,11 @@ function getMovies (url){
   .then(response => response.json())
   .then(data => {
     // LLAMADA A SHOWMOVIES
-    showMovies(data.results)
+    if(data.results.length !== 0){
+      showMovies(data.results)
+    } else {
+      cardsSection.innerHTML = `<h1 class="no-results">No Results Found! :( </h1>`
+    }
   } )
   .catch(err => console.log(err));
 }
@@ -76,6 +89,67 @@ function showMovies(data){
 })
 }
 
+setGenreTags()
+function setGenreTags(){
+  genresSection.innerHTML = ''
+  genres.forEach(genre => {
+    let tag = document.createElement('div')
+    tag.classList.add('tag')
+    tag.id = genre.id
+    tag.innerText = genre.name
+    tag.addEventListener('click', () => {
+      if(selectedGenre.length == 0){
+        selectedGenre.push(genre.id)
+      } else {
+        if(selectedGenre.includes(genre.id)){
+          selectedGenre.forEach((id, index) => {
+            if(id == genre.id){
+              selectedGenre.splice(index, 1)
+            } 
+          })
+        }else {
+          selectedGenre.push(genre.id)
+        }
+      }
+      
+      getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc&with_genres=${selectedGenre.join(',')}`)
+      highlightGenreTag();
+    })
+    genresSection.appendChild(tag)
+  })
+}
+
+function highlightGenreTag(){
+  const tags = document.querySelectorAll('.tag')
+  tags.forEach(tag => tag.classList.remove('highlight'))
+  clearGenres()
+  if(selectedGenre.length != 0){
+    selectedGenre.forEach(id => {
+      const highLightedTag = document.getElementById(id)
+      highLightedTag.classList.add('highlight');
+    })
+
+  }
+}
+
+function clearGenres(){
+  let clearBtn = document.querySelector('#clear')
+  if(clearBtn){
+    clearBtn.classList.add('highlight')
+  } else{
+    let clear = document.createElement('div')
+    clear.classList.add('tag', 'highlight')
+    clear.id = 'clear'
+    clear.innerText = 'CLEAR'
+    genresSection.appendChild(clear)
+    clear.addEventListener('click', () => {
+      selectedGenre = [];
+      setGenreTags()
+      getMovies(`${DISCOVER_URL}${API_KEY}&language=en-US&page=${page}&sort_by=popularity.desc`)
+    })
+  
+  }
+}
 // FUNCIONES PARA ESTABLECER EL COLOR DE VOTO Y EL GÉNERO DE LA PELÍCULA
 // SE UTILIZAN COMO VALOR
 function getColors(rate){  
@@ -129,6 +203,8 @@ prevBtn.addEventListener('click', () => {
 searchBar.addEventListener("keydown", (e) => {
   if (e.key == "Enter"){
     const searchValue = searchBar.value;
+    selectedGenre = []
+    highlightGenreTag()
     if(searchValue){
       getMovies(`${searchUrl}&query=${searchValue}`)
     }
@@ -252,21 +328,25 @@ function showFilmDetails(data){
       }
    
       //MOSTRAR TRAILER Y VIDEOS
-     for (let video of videosArr){
-      if(video.name === "Trailer" || video.name === "Official Trailer" || video.name === "Official Trailer (Red Band)" || 
-      video.name === "Official Teaser Trailer" || video.name === "Teaser" || video.name === "Official Trailer 1" || 
-      video.name === "Official Clip" || video.name === "Official Clip 1"){
-        document.querySelector('.videos-wrapper').innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${video.key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          `
-      } else {
-        document.querySelector('.videos-wrapper').innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${videosArr[0].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          `
-      }      
-      
-     }
-      
+      const isAnyTrailer = videosArr.filter(video => video.name === "Official Trailer" || video.name === "Official Trailer (Green Band)" || video.name === "Teaser" || video.name === "Official Trailer 1" || video.name === "Official Teaser Trailer")
+      console.log(isAnyTrailer)
+      for (let video of videosArr){
+        if(isAnyTrailer.length != 0){
+        
+          document.querySelector('.videos-wrapper').innerHTML = `
+          <div style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${isAnyTrailer[0].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+            `
+        } else{
+          document.querySelector('.videos-wrapper').innerHTML = `
+          <div style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/${videosArr[0].key}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+            `
+        }
+      }
+        
 
       // MOSTRAR SIMILAR MOVIES
       fetch(`${DISCOVER_URL}${API_KEY}&language=en-US&page=1&sort_by=popularity.desc&with_genres=${genresStr}`)
@@ -280,7 +360,12 @@ function showFilmDetails(data){
           document.querySelector('.similar-movies-wrapper').innerHTML += `
           <div class="similar-movie">
             <p class="filmID">${movie.id}</p>
-            <img src="${IMAGES_URL}/w200/${movie.backdrop_path}" alt="${movie.title} movie image">
+            <img src="${IMAGES_URL}/w500/${movie.backdrop_path}" alt="${movie.title} movie image">
+            <div class="card__overlay">
+              <div class="movie-info overlay_text">
+                <h3 class="movie-title">${movie.title}</h3>       
+                
+              </div>
           </div>          
           `
           const similarItemArr = document.querySelectorAll('.similar-movie')
@@ -298,6 +383,9 @@ function showFilmDetails(data){
       header.style.background = `linear-gradient(358.93deg, #0D0C0F 0.83%, rgba(13, 12, 15, 0.85) 20.55%, rgba(4, 4, 4, 0.26) 57.53%, rgba(13, 12, 15, 0.1) 70.66%, #0D0C0F 103.18%), url(${IMAGES_URL}/original${backdrop_path}) center / cover`
       cardsSection.style.display = "none"
       filmDetailSection.style.display = "block"
+      navList.style.background = "none"
+      navList.style.top = "10%"
+      genresSection.style.display = "none"
       document.querySelector('.page-buttons').style.display = "none"  
       document.querySelector('.hero-wrapper').style.display = "flex"
 
@@ -322,6 +410,9 @@ function closeDetails(){
       header.style.background = ``
       cardsSection.style.display = "flex"
       filmDetailSection.style.display = "none"
+      genresSection.style.display = "flex" 
+      navList.style.background = "#0D0C0F"
+      navList.style.top = "60%"     
       document.querySelector('.page-buttons').style.display = "flex"
       backBtn.style.display = "none"
       document.querySelector('.hero-wrapper').style.display = "none"
